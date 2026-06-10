@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team Hub — Our People, Our Strength</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- PASSWORD MODAL -->
+<div id="passwordModal" class="modal-overlay hidden">
+  <div class="modal-box password-box">
+    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+    <h2>Admin Access</h2>
+    <p>Enter password to continue</p>
+    <div class="pw-input-wrap">
+      <input type="password" id="passwordInput" placeholder="Enter password..." />
+      <button id="pwToggle" type="button"><i class="fas fa-eye"></i></button>
+    </div>
+    <div id="pwError" class="pw-error hidden">❌ Wrong password. Try again.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="pwCancel">Cancel</button>
+      <button class="btn-primary" id="pwSubmit">Unlock <i class="fas fa-unlock"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT EMPLOYEE MODAL -->
+<div id="empModal" class="modal-overlay hidden">
+  <div class="modal-box emp-box">
+    <div class="modal-header">
+      <h2 id="empModalTitle">Add New Employee</h2>
+      <button class="close-btn" id="empModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Image Upload -->
+      <div class="img-upload-section">
+        <div class="img-preview-wrap" id="empImgPreview">
+          <img id="empImgPreviewImg" src="" alt="Preview" class="hidden"/>
+          <div id="empImgPlaceholder"><i class="fas fa-user-circle"></i><span>Upload Photo</span></div>
+        </div>
+        <input type="file" id="empImageInput" accept="image/jpeg,image/png,image/webp" class="hidden"/>
+        <button class="btn-upload" id="empUploadBtn"><i class="fas fa-camera"></i> Upload Photo</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="empName" placeholder="e.g. Rahul Sharma"/>
+        </div>
+        <div class="form-group">
+          <label>Position *</label>
+          <input type="text" id="empPosition" placeholder="e.g. Web Developer"/>
+        </div>
+        <div class="form-group">
+          <label>Department *</label>
+          <input type="text" id="empDept" placeholder="e.g. Development"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="empEmail" placeholder="email@company.com"/>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="empPhone" placeholder="+91 XXXXX XXXXX"/>
+        </div>
+        <div class="form-group">
+          <label>Joining Date</label>
+          <input type="date" id="empJoinDate"/>
+        </div>
+        <div class="form-group full-width">
+          <label>Description</label>
+          <textarea id="empDesc" rows="3" placeholder="Brief description about the employee..."></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>Skills <span class="hint">(comma separated)</span></label>
+          <input type="text" id="empSkills" placeholder="SEO, Content Writing, Graphic Design"/>
+        </div>
+        <div class="form-group">
+          <label>Certificates Count</label>
+          <input type="number" id="empCerts" placeholder="0" min="0"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="empCancelBtn">Cancel</button>
+      <button class="btn-primary" id="empSaveBtn">Save Employee <i class="fas fa-save"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- FOUNDER EDIT MODAL -->
+<div id="founderModal" class="modal-overlay hidden">
+  <div class="modal-box emp-box">
+    <div class="modal-header">
+      <h2>Edit Founder Profile</h2>
+      <button class="close-btn" id="founderModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="img-upload-section">
+        <div class="img-preview-wrap" id="founderImgPreview">
+          <img id="founderImgPreviewImg" src="" alt="Preview" class="hidden"/>
+          <div id="founderImgPlaceholder"><i class="fas fa-user-circle"></i><span>Upload Photo</span></div>
+        </div>
+        <input type="file" id="founderImageInput" accept="image/jpeg,image/png,image/webp" class="hidden"/>
+        <div class="founder-img-btns">
+          <button class="btn-upload" id="founderUploadBtn"><i class="fas fa-camera"></i> Change Photo</button>
+          <button class="btn-danger-sm" id="founderRemoveImg"><i class="fas fa-trash"></i> Remove</button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Founder Name</label>
+          <input type="text" id="founderName" placeholder="Founder Name"/>
+        </div>
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" id="founderPosition" placeholder="Founder & CEO"/>
+        </div>
+        <div class="form-group full-width">
+          <label>Description</label>
+          <textarea id="founderDesc" rows="3"></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>Skills <span class="hint">(comma separated)</span></label>
+          <input type="text" id="founderSkills" placeholder="AI Analytics, SEO, ..."/>
+        </div>
+        <div class="form-group">
+          <label>Certificates Count</label>
+          <input type="number" id="founderCerts" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>LinkedIn URL</label>
+          <input type="url" id="founderLinkedin" placeholder="https://linkedin.com/in/..."/>
+        </div>
+        <div class="form-group">
+          <label>Twitter URL</label>
+          <input type="url" id="founderTwitter" placeholder="https://twitter.com/..."/>
+        </div>
+        <div class="form-group">
+          <label>Instagram URL</label>
+          <input type="url" id="founderInstagram" placeholder="https://instagram.com/..."/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="founderCancelBtn">Cancel</button>
+      <button class="btn-primary" id="founderSaveBtn">Save Changes <i class="fas fa-save"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- EMPLOYEE DETAIL VIEW MODAL -->
+<div id="viewModal" class="modal-overlay hidden">
+  <div class="modal-box view-box">
+    <div class="modal-header">
+      <h2>Employee Details</h2>
+      <button class="close-btn" id="viewModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="viewModalBody"></div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div id="deleteModal" class="modal-overlay hidden">
+  <div class="modal-box delete-box">
+    <div class="delete-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <h2>Delete Employee?</h2>
+    <p id="deleteConfirmText">Are you sure you want to delete this employee?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="deleteCancelBtn">Cancel</button>
+      <button class="btn-danger" id="deleteConfirmBtn">Delete <i class="fas fa-trash"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon"><i class="fas fa-users"></i></div>
+      <div>
+        <span class="brand-name">Team Hub</span>
+        <span class="brand-tagline">Our People, Our Strength</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="themeToggleBtn" title="Toggle Theme">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="nav-btn" id="exportBtn" title="Export Data">
+        <i class="fas fa-download"></i>
+      </button>
+      <label class="nav-btn" title="Import Data">
+        <i class="fas fa-upload"></i>
+        <input type="file" id="importInput" accept=".json" class="hidden"/>
+      </label>
+      <button class="btn-add" id="addEmpBtn">
+        <i class="fas fa-plus"></i> Add Employee
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO / STATS -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-info">
+          <span class="stat-num" id="statEmployees">0</span>
+          <span class="stat-label">Team Members</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-building"></i></div>
+        <div class="stat-info">
+          <span class="stat-num" id="statDepts">0</span>
+          <span class="stat-label">Departments</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-lightbulb"></i></div>
+        <div class="stat-info">
+          <span class="stat-num" id="statSkills">0</span>
+          <span class="stat-label">Total Skills</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-certificate"></i></div>
+        <div class="stat-info">
+          <span class="stat-num" id="statCerts">0</span>
+          <span class="stat-label">Certificates</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER SECTION -->
+  <section class="founder-section">
+    <div class="section-label">Founder & Visionary</div>
+    <div class="founder-card" id="founderCard">
+      <div class="founder-glow"></div>
+      <div class="founder-badge">FOUNDER</div>
+      <div class="founder-img-wrap">
+        <img id="founderCardImg" src="" alt="Founder" class="hidden"/>
+        <div id="founderCardPlaceholder" class="founder-placeholder"><i class="fas fa-user"></i></div>
+      </div>
+      <div class="founder-info">
+        <h1 id="founderCardName">Prince Verma</h1>
+        <p class="founder-pos" id="founderCardPos">Founder & CEO</p>
+        <p class="founder-desc" id="founderCardDesc">Visionary leader driving innovation and excellence across all verticals. Passionate about technology, people, and building world-class teams.</p>
+        <div class="founder-skills" id="founderCardSkills"></div>
+        <div class="founder-meta">
+          <div class="founder-cert"><i class="fas fa-certificate"></i> <span id="founderCardCerts">50</span>+ Certificates</div>
+        </div>
+        <div class="founder-socials" id="founderCardSocials"></div>
+      </div>
+      <button class="founder-edit-btn" id="founderEditBtn" title="Edit Founder">
+        <i class="fas fa-pen"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- SEARCH & FILTER -->
+  <section class="search-section">
+    <div class="search-wrap">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search by name, position, department, skills..."/>
+        <button id="clearSearch" class="clear-btn hidden"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="filter-row">
+        <select id="deptFilter"><option value="">All Departments</option></select>
+        <select id="posFilter"><option value="">All Positions</option></select>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM MEMBERS -->
+  <section class="team-section">
+    <div class="section-header">
+      <div class="section-label">The Team</div>
+      <h2>Our People</h2>
+    </div>
+    <div id="noEmployees" class="empty-state hidden">
+      <i class="fas fa-user-plus"></i>
+      <p>No team members yet.</p>
+      <span>Click "Add Employee" to get started.</span>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+  </section>
+
+  <!-- ORG CHART -->
+  <section class="org-section">
+    <div class="section-header">
+      <div class="section-label">Structure</div>
+      <h2>Organisation Chart</h2>
+    </div>
+    <div class="org-chart" id="orgChart"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <i class="fas fa-users"></i> Team Hub
+    </div>
+    <p>Our People, Our Strength</p>
+    <p class="footer-copy">© 2025 Team Hub. Built with ❤️ for Prince Verma</p>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
